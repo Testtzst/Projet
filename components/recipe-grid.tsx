@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { ShoppingCart, Heart, Search, SlidersHorizontal, X, Leaf, Copy, Check } from "lucide-react";
+import { ShoppingCart, Heart, Search, SlidersHorizontal, X, Leaf, Copy, Check, Beef } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Fuse from "fuse.js";
 import { recipes, categories } from "@/lib/recipes";
@@ -181,6 +181,7 @@ export default function RecipeGrid() {
   const [search, setSearch] = useState("");
   const [maxCost, setMaxCost] = useState(5);
   const [veganOnly, setVeganOnly] = useState(false);
+  const [meatOnly, setMeatOnly] = useState(false);
   const [sortBy, setSortBy] = useState<"default" | "cost" | "time" | "rating">("default");
   const [openRecipe, setOpenRecipe] = useState<Recipe | null>(null);
   const [favIds, setFavIds] = useState<Set<string>>(new Set());
@@ -241,7 +242,8 @@ export default function RecipeGrid() {
       const matchCat = activeCategory === ALL || r.category === activeCategory;
       const matchCost = r.costPerPerson <= maxCost;
       const matchVegan = !veganOnly || r.isVegan;
-      return matchCat && matchCost && matchVegan;
+      const matchMeat = !meatOnly || r.isVegetarian === false;
+      return matchCat && matchCost && matchVegan && matchMeat;
     });
 
     // Apply sorting
@@ -250,7 +252,7 @@ export default function RecipeGrid() {
     if (sortBy === "rating") list = [...list].sort((a, b) => b.rating - a.rating);
 
     return list;
-  }, [activeCategory, search, maxCost, veganOnly, sortBy]);
+  }, [activeCategory, search, maxCost, veganOnly, meatOnly, sortBy]);
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-12" id="recettes">
@@ -352,7 +354,7 @@ export default function RecipeGrid() {
 
         {/* Vegan toggle */}
         <button
-          onClick={() => setVeganOnly((v) => !v)}
+          onClick={() => { setVeganOnly((v) => !v); if (meatOnly) setMeatOnly(false); }}
           className={cn(
             "flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full border transition-all",
             veganOnly
@@ -364,14 +366,29 @@ export default function RecipeGrid() {
           <Leaf className="w-3.5 h-3.5" />Végan seulement
         </button>
 
+        {/* Meat toggle */}
+        <button
+          onClick={() => { setMeatOnly((v) => !v); if (veganOnly) setVeganOnly(false); }}
+          className={cn(
+            "flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full border transition-all",
+            meatOnly
+              ? "bg-red-600 text-white border-red-600"
+              : "border-border text-muted-foreground hover:border-red-600 hover:text-red-600"
+          )}
+          aria-pressed={meatOnly}
+        >
+          <Beef className="w-3.5 h-3.5" />Avec viande
+        </button>
+
         {/* Reset */}
-        {(activeCategory !== ALL || search || maxCost < 5 || veganOnly || sortBy !== "default") && (
+        {(activeCategory !== ALL || search || maxCost < 5 || veganOnly || meatOnly || sortBy !== "default") && (
           <button
             onClick={() => {
               setActiveCategory(ALL);
               setSearch("");
               setMaxCost(5);
               setVeganOnly(false);
+              setMeatOnly(false);
               setSortBy("default");
             }}
             className="text-xs text-primary underline underline-offset-2 hover:text-primary/80 ml-auto"
@@ -428,7 +445,7 @@ export default function RecipeGrid() {
             Essayez d&apos;ajuster vos filtres ou augmentez le budget.
           </p>
           <button
-            onClick={() => { setActiveCategory(ALL); setSearch(""); setMaxCost(5); setVeganOnly(false); setSortBy("default"); }}
+            onClick={() => { setActiveCategory(ALL); setSearch(""); setMaxCost(5); setVeganOnly(false); setMeatOnly(false); setSortBy("default"); }}
             className="mt-4 font-sans text-sm text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
           >
             Réinitialiser les filtres
