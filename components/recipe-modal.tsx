@@ -127,16 +127,14 @@ export default function RecipeModal({
                 const visual = getVisual(recipe.category);
                 return (
                   <div className={cn("relative h-48 sm:h-64 shrink-0", visual.placeholder)}>
-                    {visual.image && (
-                      <Image
-                        src={visual.image}
-                        alt=""
-                        fill
-                        sizes="(max-width: 640px) 100vw, 768px"
-                        className="object-cover"
-                        priority
-                      />
-                    )}
+                    <Image
+                      src={recipe.image}
+                      alt={recipe.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 768px"
+                      className="object-cover"
+                      priority
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                     <button
                       onClick={onClose}

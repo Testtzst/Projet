@@ -166,9 +166,7 @@ function FavouritesStrip({
             className="flex-shrink-0 flex flex-col items-center gap-1 text-center group"
           >
             <div className={cn("w-14 h-14 rounded-full overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors relative", getVisual(r.category).placeholder)}>
-              {getVisual(r.category).image && (
-                <Image src={getVisual(r.category).image} alt="" fill sizes="56px" className="object-cover" />
-              )}
+              <Image src={r.image} alt={r.title} fill sizes="56px" className="object-cover" />
             </div>
             <span className="text-[10px] text-muted-foreground max-w-[56px] leading-tight line-clamp-2">{r.title}</span>
           </button>

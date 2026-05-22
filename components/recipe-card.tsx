@@ -46,16 +46,14 @@ export default function RecipeCard({
     >
       {/* Visual */}
       <div className={cn("relative overflow-hidden aspect-[4/3]", visual.placeholder)}>
-        {visual.image && (
-          <Image
-            src={visual.image}
-            alt=""
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            priority={index < 4}
-          />
-        )}
+        <Image
+          src={recipe.image}
+          alt={recipe.title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          priority={index < 4}
+        />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-all duration-300" />
 
         {/* Badges top-left */}
