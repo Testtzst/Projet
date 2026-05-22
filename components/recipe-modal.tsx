@@ -4,8 +4,9 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import {
   Clock, Users, Star, Leaf, Heart, ShoppingCart, X,
-  CheckCircle2, Lightbulb, Flame, Copy, Check, UtensilsCrossed
+  CheckCircle2, Lightbulb, Flame, Copy, Check
 } from "lucide-react";
+import { getVisual } from "@/lib/category-visuals";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -43,14 +44,11 @@ export default function RecipeModal({
     };
   }, [recipe, handleKeyDown]);
 
-  // Reset image error when recipe changes
   useEffect(() => {
-    setImgError(false);
     setCopied(false);
   }, [recipe?.id]);
 
   const [copied, setCopied] = useState(false);
-  const [imgError, setImgError] = useState(false);
 
   const copyRecipe = async () => {
     if (!recipe) return;
@@ -84,7 +82,6 @@ export default function RecipeModal({
                 "@type": "Recipe",
                 name: recipe.title,
                 description: recipe.description,
-                image: recipe.image,
                 recipeCategory: recipe.category,
                 cookTime: `PT${recipe.cookTime}M`,
                 recipeYield: `${recipe.servings} portions`,
@@ -126,38 +123,37 @@ export default function RecipeModal({
             <div className="bg-card w-full sm:max-w-3xl max-h-[95dvh] sm:max-h-[90vh] rounded-t-2xl sm:rounded-2xl overflow-hidden flex flex-col shadow-2xl">
 
               {/* Hero image */}
-              <div className="relative h-48 sm:h-64 shrink-0 bg-secondary">
-                {imgError ? (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <UtensilsCrossed className="w-16 h-16 text-muted-foreground/30" />
+              {(() => {
+                const visual = getVisual(recipe.category);
+                return (
+                  <div className={cn("relative h-48 sm:h-64 shrink-0", visual.placeholder)}>
+                    <Image
+                      src={recipe.image}
+                      alt={recipe.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 768px"
+                      className="object-cover"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                    <button
+                      onClick={onClose}
+                      className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/60 transition-colors"
+                      aria-label="Fermer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-white bg-primary/80 px-2 py-0.5 rounded-full">
+                        {recipe.category}
+                      </span>
+                      <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white mt-2 leading-tight">
+                        {recipe.title}
+                      </h2>
+                    </div>
                   </div>
-                ) : (
-                  <Image 
-                    src={recipe.image} 
-                    alt={recipe.title} 
-                    fill 
-                    className="object-cover" 
-                    priority 
-                    onError={() => setImgError(true)}
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                <button
-                  onClick={onClose}
-                  className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/60 transition-colors"
-                  aria-label="Fermer"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-white bg-primary/80 px-2 py-0.5 rounded-full">
-                    {recipe.category}
-                  </span>
-                  <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white mt-2 leading-tight">
-                    {recipe.title}
-                  </h2>
-                </div>
-              </div>
+                );
+              })()}
 
               {/* Scrollable body */}
               <div className="overflow-y-auto flex-1 p-4 sm:p-6 space-y-5">

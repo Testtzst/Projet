@@ -7,7 +7,8 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.unsplash.com",
+        hostname: "www.themealdb.com",
+        pathname: "/images/**",
       },
     ],
   },

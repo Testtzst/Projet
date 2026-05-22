@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { Heart, Clock, Users, Star, Leaf, ShoppingCart, UtensilsCrossed } from "lucide-react";
+import { Heart, Clock, Users, Star, Leaf, ShoppingCart } from "lucide-react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { getVisual } from "@/lib/category-visuals";
 import type { Recipe } from "@/lib/recipes";
 
 interface RecipeCardProps {
@@ -28,7 +28,7 @@ export default function RecipeCard({
   inCart,
   index = 0,
 }: RecipeCardProps) {
-  const [imgError, setImgError] = useState(false);
+  const visual = getVisual(recipe.category);
 
   return (
     <motion.article
@@ -44,24 +44,17 @@ export default function RecipeCard({
       onKeyDown={(e) => e.key === "Enter" && onOpen(recipe)}
       aria-label={`Ouvrir la recette ${recipe.title}`}
     >
-      {/* Image */}
-      <div className="relative overflow-hidden aspect-[4/3] bg-secondary">
-        {imgError ? (
-          <div className="absolute inset-0 flex items-center justify-center bg-secondary">
-            <UtensilsCrossed className="w-12 h-12 text-muted-foreground/30" />
-          </div>
-        ) : (
-          <Image
-            src={recipe.image}
-            alt={recipe.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-            loading="lazy"
-            onError={() => setImgError(true)}
-          />
-        )}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300" />
+      {/* Visual */}
+      <div className={cn("relative overflow-hidden aspect-[4/3]", visual.placeholder)}>
+        <Image
+          src={recipe.image}
+          alt={recipe.title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          priority={index < 4}
+        />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-all duration-300" />
 
         {/* Badges top-left */}
         <div className="absolute top-2 left-2 flex gap-1.5 flex-wrap">
