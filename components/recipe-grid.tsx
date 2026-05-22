@@ -11,6 +11,7 @@ import RecipeModal from "./recipe-modal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { getVisual } from "@/lib/category-visuals";
 
 const ALL = "Toutes";
 
@@ -163,9 +164,8 @@ function FavouritesStrip({
             onClick={() => onOpen(r)}
             className="flex-shrink-0 flex flex-col items-center gap-1 text-center group"
           >
-            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={r.image} alt={r.title} className="w-full h-full object-cover" />
+            <div className={cn("w-14 h-14 rounded-full overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors flex items-center justify-center", getVisual(r.category).classes)}>
+              <span className="text-2xl select-none" role="img" aria-hidden="true">{getVisual(r.category).emoji}</span>
             </div>
             <span className="text-[10px] text-muted-foreground max-w-[56px] leading-tight line-clamp-2">{r.title}</span>
           </button>
