@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Heart, Clock, Users, Star, Leaf, ShoppingCart } from "lucide-react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
@@ -44,16 +45,17 @@ export default function RecipeCard({
       aria-label={`Ouvrir la recette ${recipe.title}`}
     >
       {/* Visual */}
-      <div className={cn("relative overflow-hidden aspect-[4/3]", visual.classes)}>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span
-            className="text-7xl select-none transition-transform duration-500 group-hover:scale-110 drop-shadow-lg"
-            role="img"
-            aria-hidden="true"
-          >
-            {visual.emoji}
-          </span>
-        </div>
+      <div className={cn("relative overflow-hidden aspect-[4/3]", visual.placeholder)}>
+        {visual.image && (
+          <Image
+            src={visual.image}
+            alt=""
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            priority={index < 4}
+          />
+        )}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-all duration-300" />
 
         {/* Badges top-left */}

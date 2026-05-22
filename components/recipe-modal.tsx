@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import {
   Clock, Users, Star, Leaf, Heart, ShoppingCart, X,
   CheckCircle2, Lightbulb, Flame, Copy, Check
@@ -81,7 +82,6 @@ export default function RecipeModal({
                 "@type": "Recipe",
                 name: recipe.title,
                 description: recipe.description,
-                image: recipe.image,
                 recipeCategory: recipe.category,
                 cookTime: `PT${recipe.cookTime}M`,
                 recipeYield: `${recipe.servings} portions`,
@@ -122,20 +122,21 @@ export default function RecipeModal({
           >
             <div className="bg-card w-full sm:max-w-3xl max-h-[95dvh] sm:max-h-[90vh] rounded-t-2xl sm:rounded-2xl overflow-hidden flex flex-col shadow-2xl">
 
-              {/* Hero visual */}
+              {/* Hero image */}
               {(() => {
                 const visual = getVisual(recipe.category);
                 return (
-                  <div className={cn("relative h-48 sm:h-64 shrink-0", visual.classes)}>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span
-                        className="text-8xl select-none drop-shadow-2xl"
-                        role="img"
-                        aria-hidden="true"
-                      >
-                        {visual.emoji}
-                      </span>
-                    </div>
+                  <div className={cn("relative h-48 sm:h-64 shrink-0", visual.placeholder)}>
+                    {visual.image && (
+                      <Image
+                        src={visual.image}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 100vw, 768px"
+                        className="object-cover"
+                        priority
+                      />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                     <button
                       onClick={onClose}
