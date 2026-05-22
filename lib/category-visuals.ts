@@ -1,64 +1,64 @@
 export interface CategoryVisual {
-  image: string;
   placeholder: string;
   emoji: string;
 }
 
 export const categoryVisual: Record<string, CategoryVisual> = {
-  "Soupes": {
-    image: "/images/categories/soupes.jpg",
-    placeholder: "bg-gradient-to-br from-blue-400 to-cyan-500",
-    emoji: "🍲",
+  "Bœuf": {
+    placeholder: "bg-gradient-to-br from-red-700 to-red-900",
+    emoji: "🥩",
+  },
+  "Volaille": {
+    placeholder: "bg-gradient-to-br from-amber-400 to-orange-500",
+    emoji: "🍗",
+  },
+  "Agneau": {
+    placeholder: "bg-gradient-to-br from-rose-400 to-red-600",
+    emoji: "🍖",
+  },
+  "Porc": {
+    placeholder: "bg-gradient-to-br from-pink-400 to-rose-500",
+    emoji: "🥓",
+  },
+  "Fruits de mer": {
+    placeholder: "bg-gradient-to-br from-blue-400 to-cyan-600",
+    emoji: "🦞",
   },
   "Pâtes & Riz": {
-    image: "/images/categories/pates-riz.jpg",
-    placeholder: "bg-gradient-to-br from-amber-400 to-yellow-500",
+    placeholder: "bg-gradient-to-br from-amber-300 to-yellow-500",
     emoji: "🍝",
   },
-  "Oeufs": {
-    image: "/images/categories/oeufs.jpg",
+  "Végétarien": {
+    placeholder: "bg-gradient-to-br from-green-400 to-emerald-600",
+    emoji: "🥗",
+  },
+  "Végane": {
+    placeholder: "bg-gradient-to-br from-lime-400 to-green-600",
+    emoji: "🥦",
+  },
+  "Desserts": {
+    placeholder: "bg-gradient-to-br from-pink-400 to-purple-500",
+    emoji: "🍰",
+  },
+  "Petit-déjeuner": {
     placeholder: "bg-gradient-to-br from-yellow-300 to-amber-400",
     emoji: "🍳",
   },
-  "Légumineuses": {
-    image: "/images/categories/legumineuses.jpg",
-    placeholder: "bg-gradient-to-br from-green-500 to-emerald-600",
-    emoji: "🫘",
+  "Entrées": {
+    placeholder: "bg-gradient-to-br from-teal-400 to-cyan-500",
+    emoji: "🥙",
   },
-  "Gratins": {
-    image: "/images/categories/gratins.jpg",
-    placeholder: "bg-gradient-to-br from-orange-400 to-amber-600",
-    emoji: "🫕",
+  "Accompagnements": {
+    placeholder: "bg-gradient-to-br from-lime-300 to-green-400",
+    emoji: "🥔",
   },
-  "Salades": {
-    image: "/images/categories/salades.jpg",
-    placeholder: "bg-gradient-to-br from-lime-400 to-green-500",
-    emoji: "🥗",
-  },
-  "Plats mijotés": {
-    image: "/images/categories/plats-mijotes.jpg",
-    placeholder: "bg-gradient-to-br from-red-400 to-rose-600",
-    emoji: "🍖",
-  },
-  "Tartes & Quiches": {
-    image: "/images/categories/tartes-quiches.jpg",
-    placeholder: "bg-gradient-to-br from-amber-300 to-orange-500",
-    emoji: "🥧",
-  },
-  "Pains & Snacks": {
-    image: "/images/categories/pains-snacks.jpg",
-    placeholder: "bg-gradient-to-br from-stone-300 to-amber-400",
-    emoji: "🥖",
-  },
-  "Desserts": {
-    image: "/images/categories/desserts.jpg",
-    placeholder: "bg-gradient-to-br from-pink-400 to-purple-500",
-    emoji: "🍰",
+  "Divers": {
+    placeholder: "bg-gradient-to-br from-slate-400 to-gray-600",
+    emoji: "🍽️",
   },
 };
 
 export const defaultVisual: CategoryVisual = {
-  image: "",
   placeholder: "bg-gradient-to-br from-gray-300 to-gray-500",
   emoji: "🍽️",
 };
